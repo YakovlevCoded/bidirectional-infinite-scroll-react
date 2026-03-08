@@ -10,7 +10,7 @@ Most infinite scroll tutorials cover one direction: down. Detect the bottom, loa
 
 In this guide, I'll walk you through building a bidirectional infinite scroll from scratch. I'm using React and `@tanstack/react-virtual`, but the core technique is framework-agnostic — it's just math on scroll offsets. You can apply it in Vue, Svelte, or vanilla JS.
 
-**[Live Demo](https://log-viewer-infinite-scroll-demo.netlify.app)**
+**[Live Demo](https://log-viewer-infinite-scroll-demo.netlify.app)** | **[Source Code](https://github.com/YakovlevCoded/bidirectional-infinite-scroll-react)**
 
 ## The Problem, Visually
 
@@ -192,7 +192,7 @@ Scroll down — new days load. Scroll up — older days load, no jump. Click a c
 
 All with ~2000 items initially, growing infinitely in both directions. The virtualizer keeps DOM nodes at ~20-30 regardless of total count.
 
-**[Try the demo](https://log-viewer-infinite-scroll-demo.netlify.app)**
+**[Try the demo](https://log-viewer-infinite-scroll-demo.netlify.app)** | **[Source Code](https://github.com/YakovlevCoded/bidirectional-infinite-scroll-react)**
 
 ## TL;DR
 
