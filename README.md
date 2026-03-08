@@ -1,73 +1,37 @@
-# React + TypeScript + Vite
+# Bidirectional Infinite Scroll — React Demo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A log viewer with virtualized bidirectional infinite scroll, scroll anchoring, and chart synchronization.
 
-Currently, two official plugins are available:
+**[Live Demo](https://log-viewer-infinite-scroll-demo.netlify.app)** | **[Blog Post](https://dev.to/leonid_frontend/how-to-build-bidirectional-infinite-scroll-in-react-5290)**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## What's Inside
 
-## React Compiler
+- Infinite scroll in both directions (up and down)
+- Scroll anchoring — no content jump when data is prepended above the viewport
+- Virtualized list with `@tanstack/react-virtual` (~20 DOM nodes for any number of items)
+- Dynamic row heights — expandable log entries with `useLayoutEffect` measurement
+- Bar chart synced to scroll position (click a bar to jump to that day)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack
 
-## Expanding the ESLint configuration
+- React + TypeScript + Vite
+- @tanstack/react-virtual
+- react-chartjs-2 + Chart.js
+- Tailwind CSS
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Run Locally
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## The Core Idea
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+When you prepend items to a virtualized list, the scroll position stays at the same pixel offset but the content shifts down. The fix is one line:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```ts
+virtualizer.scrollToOffset(currentOffset + prependedItems * rowHeight);
 ```
+
+See the [blog post](https://dev.to/leonid_frontend/how-to-build-bidirectional-infinite-scroll-in-react-5290) for the full walkthrough.
